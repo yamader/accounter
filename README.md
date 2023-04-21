@@ -2,15 +2,33 @@
 
 ソフトウェア工学の課題
 
-## Getting Started
+## ToDo
 
-This project is a starting point for a Flutter application.
+### メイン機能
 
-A few resources to get you started if this is your first Flutter project:
+- [ ] 支出・収入を記録する機能
+- [ ] 目標設定・逆算機能
+- [ ] 履歴・統計・その他計算機能
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### オプション
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [ ] 収支に対するコメント機能
+- [ ] 突出した収支に対応(統計を分ける？表示等も)
+- [ ] ジャンルでの色付け機能
+- [ ] レシート画像読み込み
+- [ ] 円グラフ等で月ごとの収支をわかりやすく
+- [ ] 履歴に基いた予測機能
+- [ ] データのバックアップ機能
+
+## data
+
+- (タイトル)・タイムスタンプ・金額・ジャンル
+
+## view
+
+- ホーム画面(履歴・目標・統計)
+  - データ手動追加画面
+  - レシートスキャン画面
+- 履歴詳細表示画面
+  - ジャンルごとに円グラフで表示
+- 統計詳細表示画面
