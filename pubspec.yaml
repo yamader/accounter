@@ -1,7 +1,6 @@
 name: accounter
 description: 家計簿
-publish_to: none
-
+publish_to: "none"
 version: 0.1.0
 
 environment:
@@ -10,14 +9,21 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: 1.0.5
+  drift: 2.7.0
+  path: 1.8.3
+  path_provider: 2.0.14
+  provider: 6.0.5
+  sqlite3_flutter_libs: 0.5.13
+  yaru: 0.7.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  drift_dev: 2.7.0
   flutter_lints: 2.0.1
+  build_runner: 2.4.1
 
 flutter:
   uses-material-design: true
-  assets:
-    - assets/
+#  assets:
+#    - assets/
