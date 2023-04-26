@@ -73,6 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
           _controller.jumpToPage(index);
         },
       ),
+      resizeToAvoidBottomInset: false,
     );
   }
 }
