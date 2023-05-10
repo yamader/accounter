@@ -1,11 +1,13 @@
-import "package:accounter/ui/screens/home/history/history.dart";
-import "package:accounter/ui/screens/home/top/top.dart";
+import "package:accounter/ui/screens/home/pages/history.dart";
+import "package:accounter/ui/screens/home/pages/top.dart";
 import "package:accounter/ui/screens/home/widgets/new_balance.dart";
 import "package:accounter/ui/screens/preference/preference.dart";
 import "package:flutter/material.dart";
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  // refresh
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -37,19 +39,32 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        controller: _controller,
-        onPageChanged: (int index) {
-          setState(() => _index = index);
-        },
-        children: _pages.map((i) => i.page).toList(),
+      appBar: AppBar(
+        title: const Text(
+          "かけーぼ",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: SafeArea(
+        child: PageView(
+          controller: _controller,
+          onPageChanged: (int index) {
+            setState(() => _index = index);
+          },
+          children: _pages.map((i) => i.page).toList(),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: "追加",
         onPressed: () {
           showModalBottomSheet(
             context: context,
-            builder: (_) => const NewBalance(),
+            builder: (_) => Padding(
+              padding: MediaQuery.of(context).viewInsets,
+              child: const NewBalance(),
+            ),
+            isScrollControlled: true,
+            showDragHandle: true,
           );
         },
         child: const Icon(Icons.add),

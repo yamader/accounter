@@ -1,11 +1,17 @@
 import "package:accounter/data/db.dart";
 import "package:accounter/ui/screens/home/home.dart";
+import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:provider/provider.dart";
-import "package:yaru/yaru.dart";
 
 void main() {
+  LicenseRegistry.addLicense(() async* {
+    final license =
+        await rootBundle.loadString("assets/fonts/ZenKakuGothicNew/OFL.txt");
+    yield LicenseEntryWithLineBreaks(["ZenKakuGothicNew"], license);
+  });
+
   runApp(Provider<AccounterDB>(
     create: (_) => AccounterDB(),
     child: const AccounterApp(),
@@ -18,24 +24,30 @@ class AccounterApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brightness = MediaQuery.of(context).platformBrightness;
+    const seed = Colors.red;
+    const font = "ZenKakuGothicNew";
+
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       systemNavigationBarColor: Colors.transparent,
       statusBarColor: Colors.transparent,
-      statusBarIconBrightness:
-          brightness == Brightness.dark ? Brightness.light : Brightness.dark,
     ));
 
-    return YaruTheme(
-      data: const YaruThemeData(variant: YaruVariant.red),
-      builder: (context, yaru, child) => MaterialApp(
-        title: "かけーぼ (仮)",
-        theme: yaru.theme,
-        darkTheme: yaru.darkTheme,
-        debugShowCheckedModeBanner: false,
-        home: const HomeScreen(),
+    return MaterialApp(
+      title: "かけーぼ (仮)",
+      theme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: seed,
+        fontFamily: font,
       ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.dark,
+        colorSchemeSeed: seed,
+        fontFamily: font,
+      ),
+      debugShowCheckedModeBanner: false,
+      home: const HomeScreen(),
     );
   }
 }

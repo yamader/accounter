@@ -10,7 +10,7 @@ part "db.g.dart";
 class Balances extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get amount => integer()();
-  DateTimeColumn get timestamp => dateTime()();
+  DateTimeColumn get timestamp => dateTime().withDefault(currentDateAndTime)();
 
   TextColumn get title => text().nullable()();
   TextColumn get comment => text().nullable()();
@@ -57,6 +57,11 @@ class AccounterDB extends _$AccounterDB {
       },
     );
   }
+
+  Future<int> addBalance(BalancesCompanion entry) =>
+      into(balances).insert(entry);
+
+  Future<List<Balance>> allBalances() => select(balances).get();
 }
 
 LazyDatabase _openConnection() {

@@ -230,7 +230,9 @@ class $BalancesTable extends Balances with TableInfo<$BalancesTable, Balance> {
   @override
   late final GeneratedColumn<DateTime> timestamp = GeneratedColumn<DateTime>(
       'timestamp', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      defaultValue: currentDateAndTime);
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
@@ -275,8 +277,6 @@ class $BalancesTable extends Balances with TableInfo<$BalancesTable, Balance> {
     if (data.containsKey('timestamp')) {
       context.handle(_timestampMeta,
           timestamp.isAcceptableOrUnknown(data['timestamp']!, _timestampMeta));
-    } else if (isInserting) {
-      context.missing(_timestampMeta);
     }
     if (data.containsKey('title')) {
       context.handle(
@@ -454,12 +454,11 @@ class BalancesCompanion extends UpdateCompanion<Balance> {
   BalancesCompanion.insert({
     this.id = const Value.absent(),
     required int amount,
-    required DateTime timestamp,
+    this.timestamp = const Value.absent(),
     this.title = const Value.absent(),
     this.comment = const Value.absent(),
     this.category = const Value.absent(),
-  })  : amount = Value(amount),
-        timestamp = Value(timestamp);
+  }) : amount = Value(amount);
   static Insertable<Balance> custom({
     Expression<int>? id,
     Expression<int>? amount,
