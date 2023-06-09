@@ -1,22 +1,20 @@
-import "package:accounter/data/db.dart";
+import "package:accounter/data/providers.dart";
 import "package:drift/drift.dart" show Value;
 import "package:flutter/material.dart";
-import "package:provider/provider.dart";
+import "package:flutter_hooks/flutter_hooks.dart";
+import "package:hooks_riverpod/hooks_riverpod.dart";
 
-class NewBalance extends StatefulWidget {
+import "../../data/db.dart";
+
+class NewBalance extends HookConsumerWidget {
   const NewBalance({super.key});
 
   @override
-  State<NewBalance> createState() => _NewBalanceState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final db = ref.watch(dbProvider);
 
-class _NewBalanceState extends State<NewBalance> {
-  String _title = "";
-  int _amount = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    final db = Provider.of<AccounterDB>(context);
+    final title = useState("");
+    final amount = useState(0);
 
     return SafeArea(
       child: Padding(
@@ -30,7 +28,7 @@ class _NewBalanceState extends State<NewBalance> {
                 labelText: "タイトル",
               ),
               onChanged: (String value) {
-                setState(() => _title = value);
+                title.value = value;
               },
             ),
             TextField(
@@ -40,7 +38,7 @@ class _NewBalanceState extends State<NewBalance> {
               ),
               keyboardType: TextInputType.number,
               onChanged: (String value) {
-                setState(() => _amount = int.parse(value));
+                amount.value = int.parse(value);
               },
             ),
             SizedBox(
@@ -48,8 +46,8 @@ class _NewBalanceState extends State<NewBalance> {
               child: ElevatedButton(
                 onPressed: () {
                   db.addBalance(BalancesCompanion(
-                    amount: Value(_amount),
-                    title: Value(_title),
+                    amount: Value(amount.value),
+                    title: Value(title.value),
                   ));
                 },
                 child: const Text("追加"),

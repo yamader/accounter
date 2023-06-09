@@ -58,10 +58,10 @@ class AccounterDB extends _$AccounterDB {
     );
   }
 
+  Future<List<Balance>> getBalances() => select(balances).get();
+  Stream<List<Balance>> watchBalances() => select(balances).watch();
   Future<int> addBalance(BalancesCompanion entry) =>
       into(balances).insert(entry);
-
-  Future<List<Balance>> allBalances() => select(balances).get();
 }
 
 LazyDatabase _openConnection() {

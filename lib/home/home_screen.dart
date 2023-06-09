@@ -1,21 +1,16 @@
-import "package:accounter/ui/screens/home/pages/history.dart";
-import "package:accounter/ui/screens/home/pages/top.dart";
-import "package:accounter/ui/screens/home/widgets/new_balance.dart";
-import "package:accounter/ui/screens/preference/preference.dart";
 import "package:flutter/material.dart";
+import "package:flutter_hooks/flutter_hooks.dart";
+import "package:hooks_riverpod/hooks_riverpod.dart";
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+import "../preference/preference_screen.dart";
+import "history_page.dart";
+import "new_balance.dart";
+import "top_page.dart";
 
-  // refresh
+class HomeScreen extends HookConsumerWidget {
+  HomeScreen({super.key});
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   final _controller = PageController();
-  var _index = 0;
 
   static const _pages = [
     (
@@ -37,7 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final idx = useState(0);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -49,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: PageView(
           controller: _controller,
           onPageChanged: (int index) {
-            setState(() => _index = index);
+            idx.value = index;
           },
           children: _pages.map((i) => i.page).toList(),
         ),
@@ -70,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: const Icon(Icons.add),
       ),
       bottomNavigationBar: NavigationBar(
-        selectedIndex: _index,
+        selectedIndex: idx.value,
         destinations: [
           ..._pages.map((i) => i.nav).toList(),
           const NavigationDestination(
@@ -84,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.of(context).push(PreferenceScreen.route());
             return;
           }
-          setState(() => _index = index);
+          idx.value = index;
           _controller.jumpToPage(index);
         },
       ),

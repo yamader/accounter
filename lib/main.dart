@@ -1,9 +1,9 @@
-import "package:accounter/data/db.dart";
-import "package:accounter/ui/screens/home/home.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
-import "package:provider/provider.dart";
+import "package:hooks_riverpod/hooks_riverpod.dart";
+
+import "home/home_screen.dart";
 
 void main() {
   LicenseRegistry.addLicense(() async* {
@@ -12,11 +12,11 @@ void main() {
     yield LicenseEntryWithLineBreaks(["ZenKakuGothicNew"], license);
   });
 
-  runApp(Provider<AccounterDB>(
-    create: (_) => AccounterDB(),
-    child: const AccounterApp(),
-    dispose: (_, db) => db.close(),
-  ));
+  runApp(
+    const ProviderScope(
+      child: AccounterApp(),
+    ),
+  );
 }
 
 class AccounterApp extends StatelessWidget {
@@ -47,7 +47,7 @@ class AccounterApp extends StatelessWidget {
         fontFamily: font,
       ),
       debugShowCheckedModeBanner: false,
-      home: const HomeScreen(),
+      home: HomeScreen(),
     );
   }
 }
