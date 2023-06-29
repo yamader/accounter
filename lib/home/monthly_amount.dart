@@ -1,54 +1,69 @@
 import "package:accounter/data/providers.dart";
+import "package:accounter/widgets/my_circular_progress_indicator.dart";
+import "package:accounter/widgets/outlined_card.dart";
 import "package:flutter/material.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:shimmer/shimmer.dart";
-
-import "../widgets/outlined_card.dart";
 
 class MonthlyAmount extends HookConsumerWidget {
   const MonthlyAmount({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final balancesStream = ref.watch(balancesProvider);
+    final balancesStream = ref.watch(thisMonthProvider);
 
     return OutlinedCard(
       child: balancesStream.when(
-        data: (balances) => Container(
-          padding: const EdgeInsets.all(24),
-          height: 125,
-          child: Row(
-            children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                child: SizedBox(
-                  width: 72,
-                  height: 72,
-                  child: CircularProgressIndicator(
-                    value: 0.8,
-                    strokeWidth: 16,
-                    // strokeCap: StrokeCap.round,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 24),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "収支: +${balances.fold(0, (p, e) => p + e.amount)}円",
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+        data: (balances) {
+          final sum = balances.fold(0, (p, e) => p + e.amount);
+          final limit = 100000;
+          final usage = -sum / limit;
+
+          return Container(
+            padding: const EdgeInsets.all(24),
+            height: 128,
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: SizedBox(
+                    width: 72,
+                    height: 72,
+                    child: TweenAnimationBuilder(
+                      tween: Tween<double>(begin: 0, end: usage),
+                      duration: const Duration(milliseconds: 1500),
+                      curve: Curves.fastOutSlowIn,
+                      builder: (_, value, __) => MyCircularProgressIndicator(
+                        value: value,
+                        backColor: Colors.red.withOpacity(.2),
+                        strokeWidth: 16,
+                      ),
                     ),
                   ),
-                  Text("今月の記録: ${balances.length}件"),
-                  const Text("ほげほげ"),
-                ],
-              ),
-            ],
-          ),
-        ),
+                ),
+                const SizedBox(width: 24),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "支出: ￥${-sum}",
+                      style: TextStyle(
+                        color: usage > 1
+                            ? Colors.red
+                            : Theme.of(context).colorScheme.onSurface,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text("今月の予算: ￥$limit"),
+                    Text("記録件数: n=${balances.length}"),
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
         loading: () => Shimmer.fromColors(
           baseColor: const Color(0xFFEBEBF4),
           highlightColor: const Color(0xFFF4F4F4),

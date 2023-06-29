@@ -7,7 +7,7 @@ final dbProvider = Provider((ref) {
   return db;
 });
 
-final balancesProvider = StreamProvider((ref) {
+final thisMonthProvider = StreamProvider((ref) {
   final db = ref.watch(dbProvider);
-  return db.watchBalances();
+  return db.watchThisMonthBalances();
 });

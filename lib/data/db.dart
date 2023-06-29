@@ -9,11 +9,15 @@ part "db.g.dart";
 
 class Balances extends Table {
   IntColumn get id => integer().autoIncrement()();
+
   IntColumn get amount => integer()();
+
   DateTimeColumn get timestamp => dateTime().withDefault(currentDateAndTime)();
 
   TextColumn get title => text().nullable()();
+
   TextColumn get comment => text().nullable()();
+
   IntColumn get category => integer().nullable().references(Categories, #id)();
 }
 
@@ -23,7 +27,9 @@ class Categories extends Table {
       seed.hashCode.toRadixString(16).padLeft(6, "0").substring(0, 6);
 
   IntColumn get id => integer().autoIncrement()();
+
   TextColumn get name => text()();
+
   TextColumn get color =>
       text().withDefault(Variable(Categories.toColor(name)))();
 }
@@ -33,7 +39,7 @@ class AccounterDB extends _$AccounterDB {
   AccounterDB() : super(_openConnection());
 
   @override
-  int get schemaVersion => 0;
+  int get schemaVersion => 1;
 
   @override
   MigrationStrategy get migration {
@@ -58,10 +64,23 @@ class AccounterDB extends _$AccounterDB {
     );
   }
 
-  Future<List<Balance>> getBalances() => select(balances).get();
-  Stream<List<Balance>> watchBalances() => select(balances).watch();
+  Future<Balance> getBalance(int id) =>
+      (select(balances)..where((t) => t.id.equals(id))).getSingle();
+
+  Stream<List<Balance>> watchThisMonthBalances() => (select(balances)
+        // todo: 今月だけに絞る
+        // ..where((t) => t.timestamp.isBetweenValues(
+        //     DateTime.now().startOfMonth, DateTime.now().endOfMonth))
+        ..orderBy([
+          (t) => OrderingTerm(expression: t.timestamp, mode: OrderingMode.desc),
+        ]))
+      .watch();
+
   Future<int> addBalance(BalancesCompanion entry) =>
       into(balances).insert(entry);
+
+  Future<void> deleteBalance(int id) =>
+      (delete(balances)..where((t) => t.id.equals(id))).go();
 }
 
 LazyDatabase _openConnection() {
