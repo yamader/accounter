@@ -1,9 +1,10 @@
 import "package:accounter/preference/preference_screen.dart";
+import "package:accounter/utils.dart";
 import "package:flutter/material.dart";
 import "package:flutter_expandable_fab/flutter_expandable_fab.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
-import "package:fluttertoast/fluttertoast.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
+import "package:lucide_icons/lucide_icons.dart";
 
 import "history_page.dart";
 import "new_balance.dart";
@@ -19,16 +20,14 @@ class HomeScreen extends HookConsumerWidget {
     (
       page: TopPage(),
       nav: NavigationDestination(
-        icon: Icon(Icons.home_outlined),
-        selectedIcon: Icon(Icons.home),
+        icon: Icon(LucideIcons.home),
         label: "ホーム",
       )
     ),
     (
       page: HistoryPage(),
       nav: NavigationDestination(
-        icon: Icon(Icons.history_outlined),
-        selectedIcon: Icon(Icons.history),
+        icon: Icon(LucideIcons.history),
         label: "履歴",
       )
     ),
@@ -46,7 +45,7 @@ class HomeScreen extends HookConsumerWidget {
           ),
           actions: [
             IconButton(
-              icon: const Icon(Icons.calendar_month),
+              icon: const Icon(LucideIcons.calendarClock),
               onPressed: () {
                 // timemachine
                 showDatePicker(
@@ -54,6 +53,9 @@ class HomeScreen extends HookConsumerWidget {
                   initialDate: DateTime.now(),
                   firstDate: DateTime(0),
                   lastDate: DateTime.now(),
+                  helpText: "タイムマシン",
+                  cancelText: "キャンセル",
+                  confirmText: "Go",
                 );
               },
             )
@@ -72,10 +74,11 @@ class HomeScreen extends HookConsumerWidget {
         key: _fabKey,
         distance: 72,
         type: ExpandableFabType.up,
-        child: const Icon(Icons.add),
+        child: const Icon(LucideIcons.plus),
         children: [
           FloatingActionButton(
             tooltip: "追加",
+            heroTag: "addFab",
             onPressed: () {
               _fabKey.currentState?.toggle();
               showModalBottomSheet(
@@ -88,15 +91,18 @@ class HomeScreen extends HookConsumerWidget {
                 showDragHandle: true,
               );
             },
-            child: const Icon(Icons.edit),
+            child: const Icon(LucideIcons.edit3),
           ),
           FloatingActionButton(
             tooltip: "画像読み取り",
+            heroTag: "cameraFab",
             onPressed: () {
               _fabKey.currentState?.toggle();
-              Fluttertoast.showToast(msg: "未実装です。すんまへん。");
+              context.showSnack(const SnackBar(
+                content: Text("未実装です。すんまへん。"),
+              ));
             },
-            child: const Icon(Icons.camera_alt),
+            child: const Icon(LucideIcons.scanLine),
           ),
         ],
       ),
@@ -106,8 +112,7 @@ class HomeScreen extends HookConsumerWidget {
         destinations: [
           ..._pages.map((i) => i.nav).toList(),
           const NavigationDestination(
-            icon: Icon(Icons.settings_outlined),
-            selectedIcon: Icon(Icons.settings),
+            icon: Icon(LucideIcons.settings),
             label: "設定",
           ),
         ],

@@ -2,6 +2,7 @@ import "package:accounter/data/models.dart";
 import "package:accounter/data/providers.dart";
 import "package:accounter/utils.dart";
 import "package:accounter/widgets/error_tile.dart";
+import "package:accounter/widgets/money_icon.dart";
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:fluttertoast/fluttertoast.dart";
@@ -48,10 +49,7 @@ class Balances extends HookConsumerWidget {
                   shape: CircleBorder(),
                   child: Padding(
                     padding: EdgeInsets.all(4),
-                    child: Icon(
-                      Icons.currency_bitcoin,
-                      color: Colors.white,
-                    ),
+                    child: MoneyIcon(color: Colors.white),
                   ),
                 ),
                 title: Opacity(
@@ -73,7 +71,8 @@ class Balances extends HookConsumerWidget {
                     )),
                 onTap: () async {
                   final res = await context.nav
-                      .push(BalanceDetailsScreen.route(balance.id));
+                          .push(BalanceDetailsScreen.route(balance.id)) ??
+                      false;
                   if (res && context.mounted) {
                     context.showSnack(const SnackBar(
                       content: Text("データの取得に失敗しました"),

@@ -14,7 +14,7 @@ extension FutureEx<T> on Future<T> {
 }
 
 extension ContextEx on BuildContext {
-  ColorScheme get colorTheme => Theme.of(this).colorScheme;
+  ColorScheme get colorScheme => Theme.of(this).colorScheme;
   TextTheme get textTheme => Theme.of(this).textTheme;
   NavigatorState get nav => Navigator.of(this);
 

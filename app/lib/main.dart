@@ -1,11 +1,14 @@
+import "package:accounter/data/providers.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
+import "package:package_info_plus/package_info_plus.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
 import "home/home_screen.dart";
 
-void main() {
+void main() async {
   LicenseRegistry.addLicense(() async* {
     final license =
         await rootBundle.loadString("assets/fonts/ZenKakuGothicNew/OFL.txt");
@@ -13,8 +16,12 @@ void main() {
   });
 
   runApp(
-    const ProviderScope(
-      child: AccounterApp(),
+    ProviderScope(
+      overrides: [
+        pkgProvider.overrideWithValue(await PackageInfo.fromPlatform()),
+        prefProvider.overrideWithValue(await SharedPreferences.getInstance()),
+      ],
+      child: const AccounterApp(),
     ),
   );
 }

@@ -1,7 +1,10 @@
 import "package:flutter/material.dart";
 
 class FilledCard extends StatelessWidget {
-  const FilledCard({super.key, required this.child});
+  const FilledCard({
+    required this.child,
+    super.key,
+  });
 
   final Widget child;
 

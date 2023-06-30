@@ -1,4 +1,6 @@
+import "package:accounter/utils.dart";
 import "package:flutter/material.dart";
+import "package:lucide_icons/lucide_icons.dart";
 
 class ErrorTile extends StatelessWidget {
   const ErrorTile({
@@ -10,11 +12,11 @@ class ErrorTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListTile(
-        leading: const Icon(Icons.error),
+        leading: const Icon(LucideIcons.alertTriangle),
         title: const Text("エラー"),
         subtitle: Text(msg),
-        iconColor: Theme.of(context).colorScheme.onError,
-        textColor: Theme.of(context).colorScheme.onError,
-        tileColor: Theme.of(context).colorScheme.error,
+        iconColor: context.colorScheme.onError,
+        textColor: context.colorScheme.onError,
+        tileColor: context.colorScheme.error,
       );
 }

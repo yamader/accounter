@@ -1,10 +1,12 @@
 import "package:accounter/data/models.dart";
 import "package:accounter/data/providers.dart";
 import "package:accounter/utils.dart";
+import "package:accounter/widgets/money_icon.dart";
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:fluttertoast/fluttertoast.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
+import "package:lucide_icons/lucide_icons.dart";
 import "package:shimmer/shimmer.dart";
 
 class BalanceDetailsScreen extends HookConsumerWidget {
@@ -21,7 +23,7 @@ class BalanceDetailsScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final db = ref.read(dbProvider);
+    final db = ref.watch(dbProvider);
     final balanceFuture = useMemoized(() => db.getBalance(id));
 
     return Scaffold(
@@ -56,11 +58,7 @@ class _Details extends HookConsumerWidget {
               color: Colors.orange,
               child: Padding(
                 padding: EdgeInsets.all(4),
-                child: Icon(
-                  Icons.currency_bitcoin,
-                  size: 48,
-                  color: Colors.white,
-                ),
+                child: MoneyIcon(size: 48, color: Colors.white),
               ),
             ),
             const SizedBox(width: 16),
@@ -98,7 +96,7 @@ class _Details extends HookConsumerWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const Icon(Icons.navigate_next),
+            const Icon(LucideIcons.chevronRight),
           ]),
           onTap: () {
             Fluttertoast.showToast(msg: "ここでなんかする");
@@ -123,7 +121,7 @@ class _Details extends HookConsumerWidget {
         highlightColor: const Color(0xFFF4F4F4),
         child: ListView(children: const [
           ListTile(
-            leading: Icon(Icons.title),
+            leading: MoneyIcon(),
             title: Text("hogehoge"),
           ),
         ]),
