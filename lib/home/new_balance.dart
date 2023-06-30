@@ -1,4 +1,4 @@
-import "package:accounter/data/db.dart";
+import "package:accounter/data/models.dart";
 import "package:accounter/data/providers.dart";
 import "package:drift/drift.dart" show Value;
 import "package:flutter/material.dart";

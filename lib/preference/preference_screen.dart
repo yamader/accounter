@@ -1,3 +1,4 @@
+import "package:accounter/utils.dart";
 import "package:flutter/material.dart";
 
 class PreferenceScreen extends StatelessWidget {
@@ -13,32 +14,29 @@ class PreferenceScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("設定"),
       ),
-      body: ListView(
-        children: [
-          Card(
-            child: ListTile(
-              leading: const Icon(Icons.import_export),
-              title: const Text("データのバックアップ"),
-              onTap: () {
-                const snackBar = SnackBar(
-                  content: Text("未実装です。すみません。"),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              },
-            ),
+      body: ListView(children: [
+        Card(
+          child: ListTile(
+            leading: const Icon(Icons.import_export),
+            title: const Text("データのバックアップ"),
+            onTap: () {
+              context.showSnack(const SnackBar(
+                content: Text("未実装です。すみません。"),
+              ));
+            },
           ),
-          const Divider(),
-          Card(
-            child: ListTile(
-              leading: const Icon(Icons.info),
-              title: const Text("オープンソースライセンス"),
-              onTap: () {
-                showLicensePage(context: context);
-              },
-            ),
+        ),
+        const Divider(),
+        Card(
+          child: ListTile(
+            leading: const Icon(Icons.info),
+            title: const Text("オープンソースライセンス"),
+            onTap: () {
+              showLicensePage(context: context);
+            },
           ),
-        ],
-      ),
+        ),
+      ]),
     );
   }
 }

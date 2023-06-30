@@ -29,7 +29,7 @@ class $CategoriesTable extends Categories
       'color', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
-      defaultValue: Variable(Categories.toColor(name)));
+      defaultValue: Variable(name.hex6dig));
   @override
   List<GeneratedColumn> get $columns => [id, name, color];
   @override
