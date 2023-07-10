@@ -61,6 +61,7 @@ class NewBalance extends HookConsumerWidget {
                 border: OutlineInputBorder(),
                 labelText: "タイトル",
               ),
+              autofocus: true,
               onChanged: (value) {
                 title.value = value;
               },
@@ -72,7 +73,6 @@ class NewBalance extends HookConsumerWidget {
                 labelText: "金額",
               ),
               keyboardType: TextInputType.number,
-              autofocus: true,
               onChanged: (value) {
                 amount.value = int.parse(value);
               },

@@ -2,6 +2,7 @@ import "package:accounter/data/providers.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
+import "package:flutter_dotenv/flutter_dotenv.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:package_info_plus/package_info_plus.dart";
 import "package:shared_preferences/shared_preferences.dart";
@@ -14,6 +15,8 @@ void main() async {
         await rootBundle.loadString("assets/fonts/ZenKakuGothicNew/OFL.txt");
     yield LicenseEntryWithLineBreaks(["ZenKakuGothicNew"], license);
   });
+
+  await dotenv.load(fileName: ".env");
 
   runApp(
     ProviderScope(
