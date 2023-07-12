@@ -8,7 +8,7 @@ extension ObjectEx on Object {
 extension FutureEx<T> on Future<T> {
   // for developing
   Future<T> get delay async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
     return this;
   }
 }
