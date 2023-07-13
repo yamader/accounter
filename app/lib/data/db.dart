@@ -10,12 +10,12 @@ import "models.dart";
 
 part "db.g.dart";
 
-@DriftDatabase(tables: [Balances, Categories])
+@DriftDatabase(tables: [Balances, Categories, Periodicals])
 class AccounterDB extends _$AccounterDB {
   AccounterDB() : super(_openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration {

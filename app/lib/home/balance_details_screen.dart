@@ -116,13 +116,59 @@ class _Details extends HookConsumerWidget {
     } else {
       if (snapshot.hasError) context.nav.pop(true);
 
+      // todo: balance_detail_screen
+      // todo: shimmer
+
       return Shimmer.fromColors(
-        baseColor: const Color(0xFFEBEBF4),
-        highlightColor: const Color(0xFFF4F4F4),
+        baseColor: Colors.grey.shade800,
+        highlightColor: Colors.grey.shade200,
         child: ListView(children: const [
+          Padding(
+            padding: EdgeInsets.all(16),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Material(
+                  shape: CircleBorder(),
+                  color: Colors.black,
+                  child: SizedBox(width: 48, height: 48),
+                ),
+                SizedBox(width: 16),
+                Material(
+                  color: Colors.black,
+                  child: SizedBox(width: 160, height: 24),
+                ),
+              ],
+            ),
+          ),
+          Divider(),
           ListTile(
-            leading: MoneyIcon(),
-            title: Text("hogehoge"),
+            title: Material(
+              color: Colors.black,
+              child: SizedBox(width: 160, height: 24),
+            ),
+            trailing: Material(
+              color: Colors.black,
+              child: SizedBox(width: 160, height: 24),
+            ),
+          ),
+          ListTile(
+            title: Material(
+              color: Colors.black,
+              child: SizedBox(width: 160, height: 24),
+            ),
+            trailing: Material(
+              color: Colors.black,
+              child: SizedBox(width: 160, height: 24),
+            ),
+          ),
+          ListTile(
+            title: Material(
+              color: Colors.black,
+              child: SizedBox(width: 160, height: 24),
+            ),
+            trailing: Material(
+                color: Colors.black, child: SizedBox(width: 160, height: 24)),
           ),
         ]),
       );

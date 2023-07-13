@@ -21,6 +21,13 @@ class Categories extends Table {
   TextColumn get color => text().withDefault(Variable(name.hex6dig))();
 }
 
+class Periodicals extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text()();
+  TextColumn get color => text().withDefault(Variable(name.hex6dig))();
+  IntColumn get period => integer()();
+}
+
 extension DbEx on AccounterDB {
   Future<Balance> getBalance(int id) =>
       (select(balances)..where((t) => t.id.equals(id))).getSingle().delay;

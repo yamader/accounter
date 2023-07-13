@@ -60,8 +60,8 @@ class MonthlyAmount extends HookConsumerWidget {
           );
         },
         loading: () => Shimmer.fromColors(
-          baseColor: const Color(0xFFEBEBF4),
-          highlightColor: const Color(0xFFF4F4F4),
+          baseColor: Colors.grey.shade800,
+          highlightColor: Colors.grey.shade200,
           child: Container(
             padding: const EdgeInsets.all(24),
             height: 125,
