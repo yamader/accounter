@@ -32,6 +32,8 @@ extension DbEx on AccounterDB {
   Future<Balance> getBalance(int id) =>
       (select(balances)..where((t) => t.id.equals(id))).getSingle().delay;
 
+  Future<List<Balance>> getBalances() => select(balances).get().delay;
+
   Stream<List<Balance>> watchThisMonthBalances() => (select(balances)
         // todo: 今月だけに絞る
         // ..where((t) => t.timestamp.isBetweenValues(

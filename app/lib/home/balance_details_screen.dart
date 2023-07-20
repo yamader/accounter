@@ -99,7 +99,9 @@ class _Details extends HookConsumerWidget {
             const Icon(LucideIcons.chevronRight),
           ]),
           onTap: () {
-            Fluttertoast.showToast(msg: "ここでなんかする");
+            context.showSnack(const SnackBar(
+              content: Text("カテゴリなんて無えよ"),
+            ));
           },
         ),
         ListTile(
